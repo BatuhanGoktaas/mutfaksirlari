@@ -12,7 +12,7 @@ export const firebaseConfig = {
   storageBucket: "mutfaksirlari-cfa48.appspot.com",
   messagingSenderId: "62222574858",
   appId: "1:62222574858:web:c435083bb62a8feb43c6f3",
-  measurementId: "G-VS37Q5NP4L"
+  measurementId: "G-VS37Q5NP4L",
 };
 
 // Initialize Firebase
