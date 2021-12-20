@@ -3,34 +3,18 @@ import { StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableOpacity,
 import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../firebase-config";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase-config";
 
 import { useNavigation } from "@react-navigation/native";
 
 const uri = "https://live.staticflickr.com/65535/50813570567_f69b84c427_b.jpg";
 
 export default function LoginScreen() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  //   const handleCreateAccount = () => {
-  //     createUserWithEmailAndPassword(auth, email, password)
-  //       .then((userCredential) => {
-  //         console.log("Kayıt oluşturuldu!");
-  //         const user = userCredential.user;
-  //         console.log(user);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //         Alert.alert(error.message);
-  //       });
-  //   };
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
@@ -67,6 +51,7 @@ export default function LoginScreen() {
                 onChangeText={(text) => setEmail(text)}
                 style={styles.input}
                 placeholder="ornekmail@gmail.com"
+                keyboardType="email-address"
               />
             </View>
             <View>

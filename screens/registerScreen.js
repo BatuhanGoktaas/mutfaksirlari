@@ -3,23 +3,20 @@ import { StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableOpacity,
 import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../firebase-config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase-config";
 
 import { useNavigation } from "@react-navigation/native";
 
 const uri = "https://live.staticflickr.com/65535/50813570567_f69b84c427_b.jpg";
 
 export default function RegisterScreen() {
-  const [username, setUsername] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
-  const navigation = useNavigation();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  const navigation = useNavigation();
 
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
