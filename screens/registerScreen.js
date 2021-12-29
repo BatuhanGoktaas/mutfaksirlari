@@ -6,11 +6,13 @@ import { StatusBar } from "expo-status-bar";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
 
+
 import { useNavigation } from "@react-navigation/native";
 
 const uri = "https://live.staticflickr.com/65535/50813570567_f69b84c427_b.jpg";
 
 export default function RegisterScreen() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,14 +23,21 @@ export default function RegisterScreen() {
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        const userId = userCredential.user.uid;
+
         console.log("Kayıt oluşturuldu!");
-        const user = userCredential.user;
-        console.log(user);
+        setIsSignedIn(true);
+        navigation.navigate("Home");
       })
       .catch((error) => {
         console.log(error);
         Alert.alert(error.message);
       });
+  };
+
+  const controlPassword = () => {
+    if (password == confirmPassword) handleCreateAccount();
+    else alert("Parolalar eşleşmiyor");
   };
 
   return (
@@ -70,13 +79,13 @@ export default function RegisterScreen() {
             <View>
               <Text style={{ fontSize: 17, fontWeight: "400", color: "white" }}>Şifreni Onayla</Text>
               <TextInput
-                onChangeText={(text) => setPassword(text)}
+                onChangeText={(text) => setConfirmPassword(text)}
                 style={styles.input}
                 placeholder="********"
                 secureTextEntry={true}
               />
             </View>
-            <TouchableOpacity onPress={handleCreateAccount} style={styles.button}>
+            <TouchableOpacity onPress={controlPassword} style={styles.button}>
               <Text style={{ fontSize: 17, fontWeight: "400", color: "white" }}>Kayıt ol</Text>
             </TouchableOpacity>
             <Text

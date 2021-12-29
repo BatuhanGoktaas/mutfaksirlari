@@ -4,21 +4,23 @@ import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
+import { collection, getDocs } from 'firebase/firestore/lite';
 
 import { useNavigation } from "@react-navigation/native";
 
 const uri = "https://live.staticflickr.com/65535/50813570567_f69b84c427_b.jpg";
 
 export default function LoginScreen() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
-
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        setIsSignedIn(true);
         console.log("Giriş yapıldı!");
         const user = userCredential.user;
         console.log(user);
