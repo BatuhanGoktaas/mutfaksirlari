@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableOpacity, Alert } from "react-native";
 import { BlurView } from "expo-blur";
-import { StatusBar } from "expo-status-bar";
-
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase-config";
-
+import { auth, app, db } from "../firebase-config";
+import { collection, getDoc, setDoc, firestore, doc } from "firebase/firestore/lite";
+import firebase from "firebase/app";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -22,10 +21,17 @@ export default function RegisterScreen() {
 
   const handleCreateAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const userId = userCredential.user.uid;
-
         console.log("Kayıt oluşturuldu!");
+        //
+        const userData = { email: email, picUrl: "", username: username };
+
+        const docRef = doc(db, "collection/users/");
+        const docSnap = await getDoc(docRef);
+        setDoc(docRef, userData, { merge: true });
+        console.log(docSnap.data);
+
         setIsSignedIn(true);
         navigation.navigate("Home");
       })

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, ScrollView, TextInput, TouchableOpacity, Alert } from "react-native";
+import { Text, View, TouchableOpacity, Alert } from "react-native";
 import { BlurView } from "expo-blur";
 import { StatusBar } from "expo-status-bar";
 
@@ -27,7 +27,7 @@ export default function HomeScreen() {
   };
 
   const GetData = async () => {
-    const usersCol = collection(db, "users");
+    const usersCol = collection(db, "users/");
     const userSnapshot = await getDocs(usersCol);
     const userList = userSnapshot.docs.map((doc) => doc.data());
     console.log(userList);
